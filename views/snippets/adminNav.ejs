@@ -1,0 +1,66 @@
+<!-- SIDEBAR NAVIGATION PANEL (Hidden on mobile, persistent on desktop) -->
+<aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-brand-navy text-slate-400 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out border-r border-white/5 flex flex-col justify-between">
+    
+    <!-- Upper Menu Segment -->
+    <div>
+        <!-- Branding Header -->
+        <div class="p-6 border-b border-white/5 flex items-center justify-between">
+            <a href="#" class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-brand-teal to-brand-cyan p-2 rounded-xl">
+                    <i class="fa-solid fa-shield-halved text-brand-navy text-sm"></i>
+                </div>
+                <span class="font-bold text-lg text-white">Certi<span class="text-brand-cyan">Guard</span></span>
+            </a>
+            <!-- Mobile Sidebar Close Trigger button -->
+            <button onclick="toggleSidebar()" class="lg:hidden text-slate-400 hover:text-white focus:outline-none">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Active User Meta Profile Info block -->
+        <div class="p-4 mx-3 my-4 bg-slate-900/50 border border-white/5 rounded-xl flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-lg bg-brand-teal/20 border border-brand-teal flex items-center justify-center text-brand-cyan font-bold">
+                AN
+            </div>
+            <div>
+                <h4 class="text-xs font-bold text-white tracking-wide">Admin Node</h4>
+                <p class="text-[10px] text-brand-teal font-medium tracking-wider uppercase mt-0.5">Registry Officer</p>
+            </div>
+        </div>
+
+        <!-- Navigation Anchors Link Groups -->
+        <nav class="px-3 space-y-1">
+            <!-- Active State Dashboard (Keep current layout styles intact) -->
+            <a href="dashboard" class="flex items-center space-x-3 px-4 py-3 text-sm font-bold bg-brand-cyan/10 text-brand-cyan rounded-xl transition-all">
+                <i class="fa-solid fa-chart-pie w-5 text-center"></i>
+                <span>Dashboard</span>
+            </a>
+            
+            <!-- Issue Certificate: Placed high up as it represents a core structural block interaction -->
+            <a href="#issue-section" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium text-slate-400 hover:bg-white/5 hover:text-white rounded-xl transition-all group">
+                <i class="fa-solid fa-file-signature w-5 text-center text-slate-500 group-hover:text-brand-cyan transition-colors"></i>
+                <span>Add Certificate</span>
+            </a>
+
+            <!-- Central Certificate Registry Directory -->
+            <a href="certificates" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium text-slate-400 hover:bg-white/5 hover:text-white rounded-xl transition-all group">
+                <i class="fa-solid fa-folder-closed w-5 text-center text-slate-500 group-hover:text-brand-cyan transition-colors"></i>
+                <span>Certificate Registry</span>
+            </a>
+          
+            <!-- Revoked / Blocked Records Ledger Module -->
+            <a href="blocked-certificates" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium text-slate-400 hover:bg-white/5 hover:text-white rounded-xl transition-all group">
+                <i class="fa-solid fa-ban w-5 text-center text-slate-500 group-hover:text-red-400 transition-colors"></i>
+                <span>Blocked Certificates</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- System Exit Trigger block -->
+    <div class="p-4 border-t border-white/5">
+        <a href="login.html" class="w-full bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500 hover:text-white font-bold py-2.5 px-4 rounded-xl transition-all flex items-center justify-center space-x-2 text-xs">
+            <i class="fa-solid fa-power-off"></i>
+            <span>Terminate Session</span>
+        </a>
+    </div>
+</aside>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Records Registry Directory | CertiGuard</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            navy: '#0A192F',       // Primary Dark Canvas
+                            cyan: '#00F0FF',       // Security Accent Cyan
+                            teal: '#0D9488',       // Secondary Operations Teal
+                            slate: '#F8FAFC',      // Light Panel Backgrounds
+                            charcoal: '#334155',   // Text Typography Slate
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- AOS (Animate on Scroll) CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0A192F;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0D9488;
+            border-radius: 10px;
+        }
+        .custom-shadow {
+            box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-brand-charcoal font-sans antialiased flex min-h-screen selection:bg-brand-cyan selection:text-brand-navy">
+
+    <!-- SIDEBAR NAVIGATION SNIPPET LINKAGE -->
+    <%- include('../snippets/adminNav.ejs') %>
+
+    <!-- CONTENT WRAPPER CANVAS REGION -->
+    <div class="flex-grow lg:pl-64 flex flex-col min-h-screen">
+        
+        <!-- DASHBOARD ACTION GLOBAL TOPBAR -->
+        <%- include('../snippets/adminTop.ejs') %>
+
+        <!-- DASHBOARD METRIC SECTIONS & APPLICATION MODULE VIEWS -->
+        <main class="p-4 md:p-8 flex-grow space-y-6 overflow-x-hidden">
+            
+            <!-- HEADER CONTEXT ACTIONS HEADER -->
+            <section class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm" data-aos="fade-up">
+                <div>
+                    <h1 class="text-xl font-black text-brand-navy tracking-tight flex items-center gap-2">
+                        <i class="fa-solid fa-folder-closed text-brand-teal"></i>
+                        <span>Institutional Certificate Registry</span>
+                    </h1>
+                    <p class="text-xs text-slate-400 mt-1">Manage, verify, audit, and inspect all cryptographic certificate profiles stored on ledger nodes.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="/admin/dashboard#issue-section" class="bg-brand-navy hover:bg-brand-navy/95 text-white text-xs font-bold py-2.5 px-4 rounded-xl flex items-center space-x-2 transition-all shadow-sm">
+                        <i class="fa-solid fa-plus-circle text-brand-cyan"></i>
+                        <span>Mint New Record</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- CONTROLS, SEARCH & FILTER SUITE MODULE -->
+            <section class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4" data-aos="fade-up" data-aos-delay="50">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    
+                    <!-- Search Engine bar input component -->
+                    <div class="relative flex-grow max-w-md">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400 text-sm">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </span>
+                        <input id="registry-search" type="text" placeholder="Search by name, matriculation index, or hash digest..." class="w-full pl-10 pr-4 py-2 rounded-xl bg-brand-slate border border-slate-200 text-xs font-medium text-brand-navy focus:outline-none focus:bg-white focus:border-brand-teal transition-all">
+                    </div>
+
+                    <!-- Filter sorting options tabs -->
+                    <div class="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
+                        <button id="filter-all" onclick="setRegistryFilter('all')" class="bg-brand-navy text-white text-xs font-bold px-4 py-2 rounded-xl transition-all whitespace-nowrap">
+                            All Records (1,482)
+                        </button>
+                        <button id="filter-verified" onclick="setRegistryFilter('verified')" class="bg-brand-slate hover:bg-slate-200 text-brand-charcoal text-xs font-bold px-4 py-2 rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5">
+                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                            <span>Verified</span>
+                        </button>
+                        <button id="filter-blocked" onclick="setRegistryFilter('blocked')" class="bg-brand-slate hover:bg-slate-200 text-brand-charcoal text-xs font-bold px-4 py-2 rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5">
+                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                            <span>Blocked Certificates</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PRINCIPAL DATA VIEW REGISTRY TABLE HOUSING -->
+            <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden max-w-4xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+                <div class="overflow-x-auto scroll-smooth overscroll-x-contain subpixel-antialiased">
+                    <table class="w-full text-left border-collapse whitespace-nowrap">
+                        <thead>
+                            <tr class="bg-brand-navy text-white font-mono text-[11px] uppercase tracking-wider border-b border-slate-200">
+                                <th class="p-4 pl-6">Matric ID Index</th>
+                                <th class="p-4">Graduate Full Name</th>
+                                <th class="p-4">Academic Degree Domain</th>
+                                <th class="p-4">SHA-256 Ledger Signature Anchor</th>
+                                <th class="p-4">Status Map</th>
+                                <th class="p-4 pr-6 text-center">Action Console</th>
+                            </tr>
+                        </thead>
+                        <tbody id="registry-table-body" class="text-xs font-medium divide-y divide-slate-100">
+                            
+                            <!-- Record Instance Item Row 1 -->
+                            <tr class="table-row-item hover:bg-slate-50/80 transition-colors" data-status="verified">
+                                <td class="p-4 pl-6 font-mono font-bold text-brand-teal row-matric">2021/EG/1045</td>
+                                <td class="p-4 text-brand-navy font-bold row-name">Chinedu Silas Okeke</td>
+                                <td class="p-4 text-slate-600">B.Sc. Computer Science</td>
+                                <td class="p-4 font-mono text-slate-400 max-w-[120px] truncate select-all row-hash">8f43a291e1029c32bca612984efd11029348abedef71203948eacd32109ffb3a</td>
+                                <td class="p-4">
+                                    <span class="inline-flex items-center gap-1 bg-emerald-50 border border-emerald-200 text-emerald-700 px-2.5 py-1 rounded-lg text-[10px] font-bold">
+                                        <i class="fa-solid fa-check-circle text-xs"></i> Verified
+                                    </span>
+                                </td>
+                                <td class="p-4 pr-6 text-center">
+                                    <div class="inline-flex items-center gap-2">
+                                        <a href="/admin/verify?id=2021-EG-1045" class="bg-brand-slate border border-slate-200 hover:border-brand-teal hover:text-brand-teal text-brand-navy p-2 rounded-lg transition-all" title="View Document Canvas">
+                                            <i class="fa-solid fa-file-shield text-sm"></i>
+                                        </a>
+                                        <button class="bg-brand-slate border border-slate-200 hover:border-red-500 hover:text-red-500 text-brand-charcoal p-2 rounded-lg transition-all" title="Revoke Certificate Integrity Token">
+                                            <i class="fa-solid fa-ban text-sm"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- Record Instance Item Row 2 -->
+                            <tr class="table-row-item hover:bg-slate-50/80 transition-colors" data-status="verified">
+                                <td class="p-4 pl-6 font-mono font-bold text-brand-teal row-matric">2022/EE/1182</td>
+                                <td class="p-4 text-brand-navy font-bold row-name">Fatima Aminu Bello</td>
+                                <td class="p-4 text-slate-600">B.Eng. Electrical Engineering</td>
+                                <td class="p-4 font-mono text-slate-400 max-w-[120px] truncate select-all row-hash">3a9921efdcab48e239401203948faeedbca612984efd11029348abedef712011</td>
+                                <td class="p-4">
+                                    <span class="inline-flex items-center gap-1 bg-emerald-50 border border-emerald-200 text-emerald-700 px-2.5 py-1 rounded-lg text-[10px] font-bold">
+                                        <i class="fa-solid fa-check-circle text-xs"></i> Verified
+                                    </span>
+                                </td>
+                                <td class="p-4 pr-6 text-center">
+                                    <div class="inline-flex items-center gap-2">
+                                        <a href="#" class="bg-brand-slate border border-slate-200 hover:border-brand-teal hover:text-brand-teal text-brand-navy p-2 rounded-lg transition-all">
+                                            <i class="fa-solid fa-file-shield text-sm"></i>
+                                        </a>
+                                        <button class="bg-brand-slate border border-slate-200 hover:border-red-500 hover:text-red-500 text-brand-charcoal p-2 rounded-lg transition-all">
+                                            <i class="fa-solid fa-ban text-sm"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- Record Instance Item Row 3 (Blocked) -->
+                            <tr class="table-row-item hover:bg-slate-50/80 transition-colors bg-red-50/30" data-status="blocked">
+                                <td class="p-4 pl-6 font-mono font-bold text-red-500 row-matric">2022/CS/1089</td>
+                                <td class="p-4 text-brand-navy font-bold row-name">Tunde Emmanuel Alao</td>
+                                <td class="p-4 text-slate-600">B.Sc. Computer Science</td>
+                                <td class="p-4 font-mono text-red-400/80 max-w-[120px] truncate select-all row-hash">7f3a9b8c2d4e8a1b9401203948faeedbca612984efd11029348abedef712034</td>
+                                <td class="p-4">
+                                    <span class="inline-flex items-center gap-1 bg-red-50 border border-red-200 text-red-700 px-2.5 py-1 rounded-lg text-[10px] font-bold">
+                                        <i class="fa-solid fa-triangle-exclamation text-xs"></i> Flagged Forgery
+                                    </span>
+                                </td>
+                                <td class="p-4 pr-6 text-center">
+                                    <div class="inline-flex items-center gap-2">
+                                        <button class="bg-red-500 hover:bg-red-600 text-white font-bold px-3 py-1.5 rounded-lg transition-all text-[11px] flex items-center gap-1 shadow-sm">
+                                            <i class="fa-solid fa-gavel"></i>
+                                            <span>Review Match Audit</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- Record Instance Item Row 4 -->
+                            <tr class="table-row-item hover:bg-slate-50/80 transition-colors" data-status="verified">
+                                <td class="p-4 pl-6 font-mono font-bold text-brand-teal row-matric">2022/ME/1401</td>
+                                <td class="p-4 text-brand-navy font-bold row-name">Amara Blessing Nwachukwu</td>
+                                <td class="p-4 text-slate-600">B.Eng. Mechanical Engineering</td>
+                                <td class="p-4 font-mono text-slate-400 max-w-[120px] truncate select-all row-hash">bc51039da82103eef2193012984faeedbca612984efd11029348abedef7120de</td>
+                                <td class="p-4">
+                                    <span class="inline-flex items-center gap-1 bg-emerald-50 border border-emerald-200 text-emerald-700 px-2.5 py-1 rounded-lg text-[10px] font-bold">
+                                        <i class="fa-solid fa-check-circle text-xs"></i> Verified
+                                    </span>
+                                </td>
+                                <td class="p-4 pr-6 text-center">
+                                    <div class="inline-flex items-center gap-2">
+                                        <a href="#" class="bg-brand-slate border border-slate-200 hover:border-brand-teal hover:text-brand-teal text-brand-navy p-2 rounded-lg transition-all">
+                                            <i class="fa-solid fa-file-shield text-sm"></i>
+                                        </a>
+                                        <button class="bg-brand-slate border border-slate-200 hover:border-red-500 hover:text-red-500 text-brand-charcoal p-2 rounded-lg transition-all">
+                                            <i class="fa-solid fa-ban text-sm"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- State Indicator Row for Empty Queries -->
+                            <tr id="empty-state-row" class="hidden">
+                                <td colspan="6" class="p-8 text-center text-slate-400 font-medium">
+                                    <i class="fa-solid fa-magnifying-glass-blur text-2xl mb-2 block text-slate-300"></i>
+                                    No records match your active criteria parameters.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- DIRECTORY PAGINATION SYSTEM NAVIGATION CONTROL BAR FOOTER -->
+                <div class="flex items-center justify-between border-t border-slate-100 p-4 bg-white text-xs text-slate-400 font-semibold">
+                    <span id="pagination-counter">Showing 1 to 4 of 1,482 dynamic indexed entity lines</span>
+                    <div class="flex space-x-2">
+                        <button class="px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 transition-colors cursor-not-allowed text-slate-300 flex items-center gap-1">
+                            <i class="fa-solid fa-angle-left"></i> Previous
+                        </button>
+                        <button class="px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-brand-navy transition-colors flex items-center gap-1">
+                            Next <i class="fa-solid fa-angle-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- SECURE PORTAL BANNER FOOTER -->
+        <footer class="bg-white border-t border-slate-200 py-4 px-8 text-center text-xs text-slate-400 font-medium">
+            <p>&copy; 2026 Institutional Verification Management Platform. Secure Administrative Node Access Session.</p>
+        </footer>
+    </div>
+
+    <!-- LAYER BACKDROP CONTROL OVERLAY -->
+    <div id="sidebar-overlay" onclick="toggleSidebar()" class="hidden fixed inset-0 z-30 bg-brand-navy/40 backdrop-blur-sm lg:hidden transition-all duration-300"></div>
+
+    <!-- AOS ANIMATION INITIALIZATION & DRAWER CONTROL SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            duration: 600,
+            easing: 'ease-out-quad'
+        });
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
+        // ==========================================
+        // LEDGER SEARCH & FILTER CORE ENGINE ENGINE
+        // ==========================================
+        let currentFilter = 'all'; // States: 'all', 'verified', 'blocked'
+
+        const searchInput = document.getElementById('registry-search');
+        const tableRows = document.querySelectorAll('.table-row-item');
+        const emptyStateRow = document.getElementById('empty-state-row');
+        const paginationCounter = document.getElementById('pagination-counter');
+
+        // Handles top category tab toggles
+        function setRegistryFilter(filterType) {
+            currentFilter = filterType;
+            
+            // Reset active tab button styles
+            const tabs = {
+                all: document.getElementById('filter-all'),
+                verified: document.getElementById('filter-verified'),
+                blocked: document.getElementById('filter-blocked')
+            };
+
+            Object.keys(tabs).forEach(key => {
+                if (key === filterType) {
+                    tabs[key].className = "bg-brand-navy text-white text-xs font-bold px-4 py-2 rounded-xl transition-all whitespace-nowrap";
+                } else {
+                    tabs[key].className = "bg-brand-slate hover:bg-slate-200 text-brand-charcoal text-xs font-bold px-4 py-2 rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5";
+                }
+            });
+
+            // Context-aware placeholder modifications for targeted search requirements
+            if (filterType === 'blocked') {
+                searchInput.placeholder = "Search blocked items by name or matric number...";
+            } else {
+                searchInput.placeholder = "Search by name, matriculation index, or hash digest...";
+            }
+
+            evaluateRegistryRows();
+        }
+
+        // Combined filtration algorithm execution
+        function evaluateRegistryRows() {
+            const query = searchInput.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            tableRows.forEach(row => {
+                const rowStatus = row.getAttribute('data-status');
+                const matricText = row.querySelector('.row-matric').textContent.toLowerCase();
+                const nameText = row.querySelector('.row-name').textContent.toLowerCase();
+                const hashText = row.querySelector('.row-hash').textContent.toLowerCase();
+
+                // 1. Check top-level category navigation state matches
+                let matchesFilter = (currentFilter === 'all') || (rowStatus === currentFilter);
+
+                // 2. Apply explicit search criteria constraints based on navigation state
+                let matchesSearch = false;
+                if (currentFilter === 'blocked') {
+                    // Restrict strictly to Name or Matriculation Index as requested
+                    matchesSearch = matricText.includes(query) || nameText.includes(query);
+                } else {
+                    // Standard fallback search checking all fields including hash digests
+                    matchesSearch = matricText.includes(query) || nameText.includes(query) || hashText.includes(query);
+                }
+
+                // Render execution evaluation
+                if (matchesFilter && matchesSearch) {
+                    row.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+
+            // Handle empty state messages
+            if (visibleCount === 0) {
+                emptyStateRow.classList.remove('hidden');
+                paginationCounter.textContent = "Showing 0 to 0 of 0 matching ledger references";
+            } else {
+                emptyStateRow.classList.add('hidden');
+                paginationCounter.textContent = `Showing 1 to ${visibleCount} of ${visibleCount} filtered ledger lines`;
+            }
+        }
+
+        // Attach event listener directly to input tracking keystrokes
+        searchInput.addEventListener('input', evaluateRegistryRows);
+    </script>
+</body>
+</html>

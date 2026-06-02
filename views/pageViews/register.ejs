@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin System Onboarding | CertiGuard</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            navy: '#0A192F',       // Primary: Authoritative Dark Navy
+                            cyan: '#00F0FF',       // Secondary: Tech/Security Accent Cyan
+                            teal: '#0D9488',       // Accent Action Teal
+                            slate: '#F8FAFC',      // Neutral Light: Clean Backgrounds
+                            charcoal: '#334155',   // Text Gray
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS (Animate on Scroll) CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        html, body {
+            height: 100%;
+        }
+        .input-glow:focus {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+            border-color: #00F0FF;
+        }
+    </style>
+</head>
+<body class="bg-brand-navy text-brand-charcoal font-sans antialiased flex flex-col min-h-screen selection:bg-brand-cyan selection:text-brand-navy">
+
+    <!-- HEADER NAVIGATION BAR -->
+    <header class="w-full bg-brand-navy/80 backdrop-blur-md border-b border-brand-cyan/10 px-6 py-4 md:px-12">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Brand Logo -->
+            <a href="index.html" class="flex items-center space-x-3 group">
+                <div class="bg-gradient-to-tr from-brand-teal to-brand-cyan p-2.5 rounded-xl shadow-md transition-transform duration-300 group-hover:rotate-12">
+                    <i class="fa-solid fa-shield-halved text-brand-navy text-xl"></i>
+                </div>
+                <span class="font-bold text-xl tracking-tight bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+                    Certi<span class="text-brand-cyan">Guard</span>
+                </span>
+            </a>
+
+            <!-- Return Home link -->
+            <a href="index.html" class="text-sm font-semibold text-slate-400 hover:text-brand-cyan transition-colors flex items-center space-x-2">
+                <i class="fa-solid fa-arrow-left text-xs"></i>
+                <span>Back to Home</span>
+            </a>
+        </div>
+    </header>
+
+   <!-- MAIN REGISTRATION WRAPPER CONTAINER (Configured with explicit scrolling behavior) -->
+<main class="flex-grow flex items-center justify-center px-4 py-12 relative overflow-y-auto min-h-[calc(100vh-140px)]">
+    <!-- Technical Background Blur Elements -->
+    <div class="absolute -top-20 -left-20 w-80 h-80 bg-brand-cyan/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-20 -right-20 w-80 h-80 bg-brand-teal/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute inset-0 opacity-5 bg-[radial-gradient(#00F0FF_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none"></div>
+
+    <!-- Central Form Card Container -->
+    <div data-aos="zoom-in" data-aos-duration="600" class="w-full max-w-md bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl p-8 md:p-10 border border-white/20 relative z-10 mx-auto my-auto">
+        
+        <!-- Context Header Section -->
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 bg-brand-navy rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg border border-brand-cyan/20">
+                <i class="fa-solid fa-user-plus text-2xl text-brand-cyan"></i>
+            </div>
+            <h1 class="text-2xl font-extrabold text-brand-navy tracking-tight">Admin Account Creation</h1>
+            <p class="text-xs font-semibold uppercase tracking-wider text-brand-teal mt-1">Register new university personnel nodes</p>
+        </div>
+
+        <!-- Registration Action Form Block -->
+        <form action="/api/admin/register" method="POST" class="space-y-6" onsubmit="return validateRegistration(event)">
+            
+            <!-- System Feedback Notification Field (Hidden by default) -->
+            <div id="form-feedback" class="hidden p-4 rounded-xl text-xs font-semibold flex items-center space-x-2"></div>
+
+            <!-- Input Item: Full Name -->
+            <div class="space-y-2">
+                <label class="text-xs font-bold text-slate-700 uppercase tracking-wide flex items-center justify-between">
+                    <span>Staff Full Name</span>
+                    <i class="fa-solid fa-address-card text-slate-400"></i>
+                </label>
+                <input type="text" id="reg-name" required placeholder="Dr. Chioma Nwachukwu" 
+                    class="w-full px-4 py-3.5 rounded-xl bg-brand-slate border border-slate-200 text-sm font-medium text-brand-navy placeholder-slate-400 focus:outline-none focus:bg-white input-glow transition-all">
+            </div>
+
+            <!-- Input Item: Institutional Email -->
+            <div class="space-y-2">
+                <label class="text-xs font-bold text-slate-700 uppercase tracking-wide flex items-center justify-between">
+                    <span>Official University Email</span>
+                    <i class="fa-solid fa-envelope text-slate-400"></i>
+                </label>
+                <input type="email" id="reg-email" required placeholder="c.nwachukwu@university.edu.ng" 
+                    class="w-full px-4 py-3.5 rounded-xl bg-brand-slate border border-slate-200 text-sm font-medium text-brand-navy placeholder-slate-400 focus:outline-none focus:bg-white input-glow transition-all">
+            </div>
+
+            <!-- Input Item: Password Configuration -->
+            <div class="space-y-2">
+                <label class="text-xs font-bold text-slate-700 uppercase tracking-wide flex items-center justify-between">
+                    <span>System Password</span>
+                    <i class="fa-solid fa-lock text-slate-400"></i>
+                </label>
+                <input type="password" id="reg-password" required placeholder="••••••••••••" 
+                    class="w-full px-4 py-3.5 rounded-xl bg-brand-slate border border-slate-200 text-sm font-medium text-brand-navy placeholder-slate-400 focus:outline-none focus:bg-white input-glow transition-all">
+            </div>
+
+            <!-- Form Action Execution Submit Button -->
+            <button type="submit" class="w-full bg-brand-navy hover:bg-brand-navy/95 text-white font-bold py-4 px-6 rounded-xl shadow-lg shadow-brand-navy/10 transform hover:-translate-y-0.5 active:scale-95 transition-all flex items-center justify-center space-x-2 text-sm pt-2">
+                <i class="fa-solid fa-user-shield text-xs text-brand-cyan"></i>
+                <span>Initialize Admin Registration</span>
+            </button>
+
+            <!-- Alternate Entry Routing Link Option -->
+            <div class="text-center pt-4 border-t border-slate-100 mt-4">
+                <p class="text-xs text-slate-500">
+                    Already have an administrative profile? 
+                    <a href="/login" class="text-brand-teal font-bold hover:underline ml-1 inline-flex items-center">
+                        Log In Here <i class="fa-solid fa-arrow-right-long text-[10px] ml-1"></i>
+                    </a>
+                </p>
+            </div>
+        </form>
+    </div>
+</main>
+
+  
+    <!-- AOS ANIMATION INITIALIZATION & INTERCEPT DEMO SCRIPT -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            duration: 500,
+            easing: 'ease-out-quad'
+        });
+
+        // Basic Client-Side Validation Controller Handler Loop
+        function validateRegistration(e) {
+            e.preventDefault();
+            const feedbackBlock = document.getElementById('form-feedback');
+            const pass = document.getElementById('reg-password').value;
+            const confirmPass = document.getElementById('reg-confirm').value;
+
+            // Password matching guard clause
+            if (pass !== confirmPass) {
+                feedbackBlock.classList.remove('hidden', 'bg-brand-cyan/10', 'text-brand-navy');
+                feedbackBlock.classList.add('bg-red-500/10', 'text-red-500', 'block');
+                feedbackBlock.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1.5"></i> Operational Misalignment: Input passwords do not match. Check credentials again.`;
+                return false;
+            }
+
+            // Processing UI simulation block
+            feedbackBlock.classList.remove('hidden', 'bg-red-500/10', 'text-red-500');
+            feedbackBlock.classList.add('bg-brand-cyan/10', 'text-brand-navy', 'block');
+            feedbackBlock.innerHTML = `<i class="fa-solid fa-spinner animate-spin mr-1.5"></i> Contacting institutional validation server nodes...`;
+
+            setTimeout(() => {
+                feedbackBlock.classList.remove('bg-brand-cyan/10', 'text-brand-navy');
+                feedbackBlock.classList.add('bg-red-500/10', 'text-red-500');
+                feedbackBlock.innerHTML = `<i class="fa-solid fa-circle-nodes mr-1.5"></i> Registration Blocked: Interface requires active backend pipeline communication to digest cryptographic structures.`;
+            }, 1200);
+
+            return false;
+        }
+    </script>
+</body>
+</html>

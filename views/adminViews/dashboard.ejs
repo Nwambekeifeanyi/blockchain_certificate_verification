@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard Control Panel | CertiGuard</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            navy: '#0A192F',       // Primary Dark Canvas
+                            cyan: '#00F0FF',       // Security Accent Cyan
+                            teal: '#0D9488',       // Secondary Operations Teal
+                            slate: '#F8FAFC',      // Light Panel Backgrounds
+                            charcoal: '#334155',   // Text Typography Slate
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS (Animate on Scroll) CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0A192F;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0D9488;
+            border-radius: 10px;
+        }
+        .custom-shadow {
+            box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-brand-charcoal font-sans antialiased flex min-h-screen selection:bg-brand-cyan selection:text-brand-navy">
+
+
+  <!-- nav bar -->
+    <%- include('../snippets/adminNav.ejs') %>
+
+    <!-- CONTENT WRAPPER CANVAS REGION -->
+    <div class="flex-grow lg:pl-64 flex flex-col min-h-screen">
+        
+        <!-- DASHBOARD ACTION GLOBAL TOPBAR -->
+          <%- include('../snippets/adminTop.ejs') %>
+
+
+
+        <!-- DASHBOARD METRIC SECTIONS & APPLICATION MODULE VIEWS -->
+        <main class="p-4 md:p-8 flex-grow space-y-8 overflow-x-hidden">
+            
+            <!-- OVERVIEW PERFORMANCE COUNTER MATRICES -->
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" data-aos="fade-up">
+                <!-- Card Count 1 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div class="space-y-1">
+                        <p class="text-xs font-bold tracking-wider text-slate-400 uppercase">Total Logged Certificates</p>
+                        <h3 class="text-3xl font-black text-brand-navy">1,482</h3>
+                    </div>
+                    <div class="w-12 h-12 bg-brand-navy/5 text-brand-teal rounded-xl flex items-center justify-center text-xl shadow-inner">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                </div>
+                <!-- Card Count 2 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div class="space-y-1">
+                        <p class="text-xs font-bold tracking-wider text-slate-400 uppercase">Cryptographic Hashes Cached</p>
+                        <h3 class="text-3xl font-black text-brand-navy">1,482</h3>
+                    </div>
+                    <div class="w-12 h-12 bg-brand-navy/5 text-brand-teal rounded-xl flex items-center justify-center text-xl shadow-inner">
+                        <i class="fa-solid fa-fingerprint"></i>
+                    </div>
+                </div>
+                <!-- Card Count 3 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between sm:col-span-2 lg:col-span-1">
+                    <div class="space-y-1">
+                        <p class="text-xs font-bold tracking-wider text-slate-400 uppercase">Altered File Forgery Blocks</p>
+                        <h3 class="text-3xl font-black text-red-500">24</h3>
+                    </div>
+                    <div class="w-12 h-12 bg-red-50 text-red-500 rounded-xl flex items-center justify-center text-xl shadow-inner">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- WORKSPACE SPLIT BI-GRID: REGISTRATION FORM & SYSTEM VERIFICATION AUDITS -->
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                
+                <!-- MODULE 1 BLOCK: CERTIFICATE ISSUING & HASH GENERATION ENGINE -->
+                <section id="issue-section" class="lg:col-span-2 bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm self-start" data-aos="fade-right">
+                    <div class="mb-6">
+                        <h2 class="text-base font-extrabold text-brand-navy tracking-tight flex items-center space-x-2">
+                            <i class="fa-solid fa-file-circle-plus text-brand-teal"></i>
+                            <span>Module 1 — Issue Certificate</span>
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1">Converts student records and digital document file buffers directly into immutably mapped SHA-256 signatures.</p>
+                    </div>
+
+                    <!-- Issuing Action Form Interface -->
+                    <form action="/api/admin/issue" method="POST" enctype="multipart/form-data" class="space-y-4" onsubmit="event.preventDefault(); alert('Backend Processing Alert: Express engine processes this multipart upload payload.');">
+                        <div class="space-y-1">
+                            <label class="text-[11px] font-bold text-slate-700 uppercase tracking-wide">Student Graduate Name</label>
+                            <input type="text" required placeholder="E.g., Chinedu Silas Okeke" class="w-full px-3.5 py-2.5 rounded-xl bg-brand-slate border border-slate-200 text-sm font-medium text-brand-navy focus:outline-none focus:bg-white focus:border-brand-teal transition-all">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[11px] font-bold text-slate-700 uppercase tracking-wide">Unique Matric Number Identifier</label>
+                            <input type="text" required placeholder="E.g., 2021/EG/1045" class="w-full px-3.5 py-2.5 rounded-xl bg-brand-slate border border-slate-200 text-sm font-mono font-bold text-brand-navy focus:outline-none focus:bg-white focus:border-brand-teal transition-all">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[11px] font-bold text-slate-700 uppercase tracking-wide">Academic Department / Course</label>
+                            <input type="text" required placeholder="E.g., B.Sc. Computer Science" class="w-full px-3.5 py-2.5 rounded-xl bg-brand-slate border border-slate-200 text-sm font-medium text-brand-navy focus:outline-none focus:bg-white focus:border-brand-teal transition-all">
+                        </div>
+                        
+                        <!-- File Upload Engine Buffer Box -->
+                        <div class="space-y-1">
+                            <label class="text-[11px] font-bold text-slate-700 uppercase tracking-wide">Original Certificate Document File Asset</label>
+                            <div class="border-2 border-dashed border-slate-200 hover:border-brand-teal rounded-xl p-4 bg-brand-slate/50 text-center cursor-pointer transition-colors relative group">
+                                <input type="file" required name="certificateFile" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                                <i class="fa-solid fa-cloud-arrow-up text-2xl text-slate-400 group-hover:text-brand-teal mb-1 transition-colors"></i>
+                                <p class="text-xs font-semibold text-slate-600">Drag & drop or browse document data files</p>
+                                <p class="text-[10px] text-slate-400 mt-0.5 font-mono">PDF, PNG or JPG binaries only (Max 5MB)</p>
+                            </div>
+                        </div>
+
+                        <!-- Submission Trigger Executer button -->
+                        <button type="submit" class="w-full bg-brand-navy hover:bg-brand-navy/95 text-white font-bold py-3 px-5 rounded-xl shadow-md transform hover:-translate-y-0.5 active:scale-95 transition-all flex items-center justify-center space-x-2 text-sm pt-2.5">
+                            <i class="fa-solid fa-qrcode text-brand-cyan text-xs"></i>
+                            <span>Register & Store Hash Signature</span>
+                        </button>
+                    </form>
+                </section>
+
+
+                <!-- REGISTRY DATABASE RECORD VIEW DATA-GRID TABLE -->
+                <section id="records-section" class="lg:col-span-3 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between" data-aos="fade-left">
+                    <div>
+                        <div class="flex items-center justify-between mb-6 flex-wrap gap-2">
+                            <div>
+                                <h2 class="text-base font-extrabold text-brand-navy tracking-tight flex items-center space-x-2">
+                                    <i class="fa-solid fa-server text-brand-teal"></i>
+                                    <span>Module 3 — Registry Database Records</span>
+                                </h2>
+                                <p class="text-xs text-slate-400 mt-1">Real-time status view of cryptographic storage collections indexed inside MongoDB nodes.</p>
+                            </div>
+                            <!-- Live Count Badge element -->
+                            <span class="bg-brand-navy text-brand-cyan text-[10px] font-mono font-bold px-2 py-1 rounded-md">Collection Limit: None</span>
+                        </div>
+
+                        <!-- Data Table Asset Block Wrapper Container -->
+                        <div class="overflow-x-auto rounded-xl border border-slate-100 shadow-inner">
+                            <table class="w-full text-left border-collapse whitespace-nowrap">
+                                <thead>
+                                    <tr class="bg-brand-navy text-white font-mono text-[11px] uppercase tracking-wider">
+                                        <th class="p-3">Matric Identification</th>
+                                        <th class="p-3">Graduate Identity Name</th>
+                                        <th class="p-3">SHA-256 Fingerprint Identity Checksum</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-xs font-medium divide-y divide-slate-100">
+                                    <!-- Row item 1 -->
+                                    <tr class="hover:bg-slate-50/80 transition-colors">
+                                        <td class="p-3 font-mono font-bold text-brand-teal">2022/CS/1042</td>
+                                        <td class="p-3 text-brand-navy">Chinedu Silas Okeke</td>
+                                        <td class="p-3 font-mono text-slate-400 max-w-[150px] truncate">8f43a291e1029c32bca612984efd11029348abedef71203948eacd32109ffb3a</td>
+                                    </tr>
+                                    <!-- Row item 2 -->
+                                    <tr class="hover:bg-slate-50/80 transition-colors">
+                                        <td class="p-3 font-mono font-bold text-brand-teal">2022/EE/1182</td>
+                                        <td class="p-3 text-brand-navy">Fatima Aminu Bello</td>
+                                        <td class="p-3 font-mono text-slate-400 max-w-[150px] truncate">3a9921efdcab48e239401203948faeedbca612984efd11029348abedef712011</td>
+                                    </tr>
+                                    <!-- Row item 3 -->
+                                    <tr class="hover:bg-slate-50/80 transition-colors">
+                                        <td class="p-3 font-mono font-bold text-brand-teal">2022/CS/1089</td>
+                                        <td class="p-3 text-brand-navy">Tunde Emmanuel Alao</td>
+                                        <td class="p-3 font-mono text-slate-400 max-w-[150px] truncate">7f3a9b8c2d4e8a1b9401203948faeedbca612984efd11029348abedef712034</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Pagination Table Footing Control Layout block -->
+                    <div class="flex items-center justify-between border-t border-slate-100 pt-4 mt-6 text-xs text-slate-400 font-semibold">
+                        <span>Showing 3 indexed registry nodes</span>
+                        <div class="flex space-x-2">
+                            <button class="px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 transition-colors cursor-not-allowed text-slate-300">Previous</button>
+                            <button class="px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-brand-navy transition-colors">Next Page</button>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+
+        <!-- SECURE PORTAL BANNER FOOTER -->
+        <footer class="bg-white border-t border-slate-200 py-4 px-8 text-center text-xs text-slate-400 font-medium">
+            <p>&copy; 2026 Institutional Verification Management Platform. Secure Administrative Node Access Session.</p>
+        </footer>
+    </div>
+
+
+    <!-- LAYER BACKDROP CONTROL OVERLAY (Triggers on responsive active states) -->
+    <div id="sidebar-overlay" onclick="toggleSidebar()" class="hidden fixed inset-0 z-30 bg-brand-navy/40 backdrop-blur-sm lg:hidden transition-all duration-300"></div>
+
+    <!-- AOS ANIMATION INITIALIZATION & DRAWER CONTROL SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            duration: 600,
+            easing: 'ease-out-quad'
+        });
+
+        // Toggle Sidebar state switches supporting responsive mobile overlay drawer configurations
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mint & Upload Certificate | CertiGuard</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            navy: '#0A192F',       // Primary Dark Canvas
+                            cyan: '#00F0FF',       // Security Accent Cyan
+                            teal: '#0D9488',       // Secondary Operations Teal
+                            slate: '#F8FAFC',      // Light Panel Backgrounds
+                            charcoal: '#334155',   // Text Typography Slate
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- AOS (Animate on Scroll) CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0A192F;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0D9488;
+            border-radius: 10px;
+        }
+        .drag-over {
+            border-color: #00F0FF !important;
+            background-color: rgba(13, 148, 136, 0.05) !important;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-brand-charcoal font-sans antialiased flex min-h-screen selection:bg-brand-cyan selection:text-brand-navy">
+
+
+     <div id="formToast" class="fixed top-10 left-1/2 -translate-x-1/2 z-[10000] transform -translate-y-20 opacity-0 transition-all duration-500 pointer-events-none">
+        <div class="bg-white border-l-4 border-red-500 shadow-2xl rounded-xl p-4 flex items-center space-x-4 min-w-[320px]">
+            <div id="toastIconBg" class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0">
+                <i id="toastIcon" class="fas fa-exclamation-triangle text-white"></i>
+            </div>
+            <div class="flex-1">
+                <p id="toastTitle" class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-0.5">System Alert</p>
+                <p id="toastMessage" class="text-sm font-bold text-slate-800">Invalid Input Detected</p>
+            </div>
+            <button onclick="appNotify.hide()" class="text-slate-300 hover:text-slate-600 transition">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- SIDEBAR NAVIGATION SNIPPET LINKAGE -->
+    <%- include('../snippets/adminNav.ejs') %>
+
+    <!-- CONTENT WRAPPER CANVAS REGION -->
+    <div class="flex-grow lg:pl-64 flex flex-col min-h-screen">
+        
+        <!-- DASHBOARD ACTION GLOBAL TOPBAR -->
+        <%- include('../snippets/adminTop.ejs') %>
+
+        <!-- MAIN CONTAINER MODULE -->
+        <main class="p-4 md:p-8 flex-grow flex flex-col justify-center max-w-2xl w-full mx-auto space-y-6">
+            
+            <!-- BREADCRUMB CONTEXT HEADER -->
+            <div class="flex items-center justify-between" data-aos="fade-up">
+                <div>
+                    <!-- <a href="/admin/certificates" class="text-xs font-bold text-brand-teal hover:text-brand-navy flex items-center gap-1 transition-colors">
+                        <i class="fa-solid fa-arrow-left"></i> Back to Registry
+                    </a> -->
+                    <h1 class="text-xl font-black text-brand-navy tracking-tight mt-1">
+                        Add Cryptographic Certificate
+                    </h1>
+                </div>
+                <span class="text-[10px] font-mono tracking-wider bg-brand-navy text-white px-2.5 py-1 rounded-md shadow-sm">
+                    SECURE NODE
+                </span>
+            </div>
+
+            <!-- PRINCIPAL UPLOAD FORM CARD -->
+            <section class="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm" data-aos="fade-up" data-aos-delay="50">
+                <form enctype="multipart/form-data" class="space-y-5">
+                    
+                    <!-- Form Header Description -->
+                    <div class="border-b border-slate-100 pb-4 mb-2">
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Input the graduate's verifiable credentials below. Uploading a document compiles its structural parameters into a cryptographic hash architecture anchored directly to your institutional tracking logs.
+                        </p>
+                    </div>
+
+                    <!-- INPUT FIELD: FULL NAME -->
+                    <div class="space-y-1.5">
+                        <label for="fullName" class="text-xs font-bold text-brand-navy uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-user text-slate-400"></i> Graduate Full Name
+                        </label>
+                        <input type="text" id="fullName" name="fullName" placeholder="e.g., Chinedu Silas Okeke" 
+                            class="w-full px-4 py-2.5 rounded-xl bg-brand-slate border border-slate-200 text-xs font-medium text-brand-navy placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-brand-teal transition-all">
+                    </div>
+
+                    <!-- TWO-COLUMN GRID: MATRIC NUMBER & DEPARTMENT -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        
+                        <!-- INPUT FIELD: MATRIC NUMBER -->
+                        <div class="space-y-1.5">
+                            <label for="matricNumber" class="text-xs font-bold text-brand-navy uppercase tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-id-card text-slate-400"></i> Matriculation Number
+                            </label>
+                            <input type="text" id="matricNumber" name="matricNumber" placeholder="e.g., 2021/EG/1045" 
+                                class="w-full px-4 py-2.5 rounded-xl bg-brand-slate border border-slate-200 text-xs font-medium text-brand-navy placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-brand-teal transition-all uppercase">
+                        </div>
+
+                        <!-- INPUT FIELD: DEPARTMENT -->
+                       <div class="space-y-1.5">
+    <label for="department" class="text-xs font-bold text-brand-navy uppercase tracking-wider flex items-center gap-1.5">
+        <i class="fa-solid fa-graduation-cap text-slate-400"></i> Departmental Domain
+    </label>
+    
+    <!-- Searchable Input field linked to the datalist -->
+    <input list="departments" id="department" name="department" placeholder="Type to search department... e.g., Computer Science" 
+        class="w-full px-4 py-2.5 rounded-xl bg-brand-slate border border-slate-200 text-xs font-medium text-brand-navy placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-brand-teal transition-all">
+    
+    <!-- Complete Alphabetical Nigerian University Courses Datalist -->
+    <datalist id="departments">
+        <option value="Accountancy / Accounting"></option>
+        <option value="Actuarial Science"></option>
+        <option value="Adult Education"></option>
+        <option value="Agricultural and Bio-Resources Engineering"></option>
+        <option value="Agricultural Economics and Extension"></option>
+        <option value="Agriculture"></option>
+        <option value="Anatomy"></option>
+        <option value="Animal Science"></option>
+        <option value="Anthropology"></option>
+        <option value="Applied Biochemistry"></option>
+        <option value="Applied Biology"></option>
+        <option value="Applied Geophysics"></option>
+        <option value="Applied Microbiology"></option>
+        <option value="Arabic Studies"></option>
+        <option value="Architecture"></option>
+        <option value="Banking and Finance"></option>
+        <option value="Biochemistry"></option>
+        <option value="Biology"></option>
+        <option value="Biomedical Engineering"></option>
+        <option value="Biotechnology"></option>
+        <option value="Botany"></option>
+        <option value="Building"></option>
+        <option value="Business Administration"></option>
+        <option value="Business Management"></option>
+        <option value="Chemical Engineering"></option>
+        <option value="Chemistry"></option>
+        <option value="Christian Religious Studies"></option>
+        <option value="Civil Engineering"></option>
+        <option value="Communication Arts"></option>
+        <option value="Computer Engineering"></option>
+        <option value="Computer Science"></option>
+        <option value="Criminology and Security Studies"></option>
+        <option value="Cyber Security"></option>
+        <option value="Dental Surgery"></option>
+        <option value="Drama / Dramatic / Performing Arts"></option>
+        <option value="Eco-Tourism and Wildlife Management"></option>
+        <option value="Economics"></option>
+        <option value="Education and Biology"></option>
+        <option value="Education and Chemistry"></option>
+        <option value="Education and Computer Science"></option>
+        <option value="Education and English Language"></option>
+        <option value="Education and Mathematics"></option>
+        <option value="Education and Physics"></option>
+        <option value="Educational Management"></option>
+        <option value="Electrical / Electronic Engineering"></option>
+        <option value="English and Literary Studies"></option>
+        <option value="Entrepreneurship"></option>
+        <option value="Environmental Management"></option>
+        <option value="Estate Management"></option>
+        <option value="Fine and Applied Arts"></option>
+        <option value="Fisheries and Aquaculture"></option>
+        <option value="Food Science and Technology"></option>
+        <option value="Forestry and Wildlife Management"></option>
+        <option value="French"></option>
+        <option value="Geography"></option>
+        <option value="Geology"></option>
+        <option value="Guidance and Counselling"></option>
+        <option value="History and International Studies"></option>
+        <option value="Home Science and Management"></option>
+        <option value="Hospitality and Tourism Management"></option>
+        <option value="Human Nutrition and Dietetics"></option>
+        <option value="Industrial Chemistry"></option>
+        <option value="Industrial Mathematics"></option>
+        <option value="Industrial Physics"></option>
+        <option value="Industrial Relations and Personnel Management"></option>
+        <option value="Information and Communication Technology"></option>
+        <option value="Information Systems"></option>
+        <option value="Insurance"></option>
+        <option value="International Relations"></option>
+        <option value="Islamic Studies"></option>
+        <option value="Law"></option>
+        <option value="Library and Information Science"></option>
+        <option value="Linguistics"></option>
+        <option value="Local Government and Development Studies"></option>
+        <option value="Marketing"></option>
+        <option value="Mass Communication"></option>
+        <option value="Mathematics"></option>
+        <option value="Mechanical Engineering"></option>
+        <option value="Mechatronics Engineering"></option>
+        <option value="Medical Laboratory Science"></option>
+        <option value="Medicine and Surgery"></option>
+        <option value="Metallurgical and Materials Engineering"></option>
+        <option value="Microbiology"></option>
+        <option value="Mining Engineering"></option>
+        <option value="Music"></option>
+        <option value="Nursing / Nursing Science"></option>
+        <option value="Optometry"></option>
+        <option value="Petroleum Engineering"></option>
+        <option value="Pharmacy"></option>
+        <option value="Philosophy"></option>
+        <option value="Physiology"></option>
+        <option value="Physiotherapy"></option>
+        <option value="Plant Biology and Biotechnology"></option>
+        <option value="Political Science"></option>
+        <option value="Production Engineering"></option>
+        <option value="Psychology"></option>
+        <option value="Public Administration"></option>
+        <option value="Public Health"></option>
+        <option value="Pure and Industrial Chemistry"></option>
+        <option value="Quantity Surveying"></option>
+        <option value="Radiography"></option>
+        <option value="Real Estate"></option>
+        <option value="Religious Studies"></option>
+        <option value="Sociology"></option>
+        <option value="Software Engineering"></option>
+        <option value="Soil Science"></option>
+        <option value="Statistics"></option>
+        <option value="Surveying and Geo-Informatics"></option>
+        <option value="Telecommunication Science"></option>
+        <option value="Theatre Arts"></option>
+        <option value="Urban and Regional Planning"></option>
+        <option value="Veterinary Medicine"></option>
+        <option value="Vocational and Technical Education"></option>
+        <option value="Water Resources and Environmental Engineering"></option>
+        <option value="Zoology"></option>
+    </datalist>
+</div>
+                    </div>
+
+                    <!-- DROPZONE CONTAINER FILE UPLOAD AREA -->
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-bold text-brand-navy uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-cloud-arrow-up text-slate-400"></i> Certificate Document Asset
+                        </label>
+                        
+                        <div id="dropzone" class="relative border-2 border-dashed border-slate-200 hover:border-brand-teal bg-brand-slate rounded-2xl p-6 text-center transition-all cursor-pointer group flex flex-col items-center justify-center min-h-[160px]">
+                            <input type="file" id="certificateFile" name="certificateFile" accept=".pdf,.png,.jpg,.jpeg" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                            
+                            <!-- Static Initial Visual Content State -->
+                            <div id="dropzone-prompt" class="space-y-2 pointer-events-none transition-all duration-300">
+                                <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-slate-400 group-hover:text-brand-teal group-hover:scale-110 transition-all mx-auto">
+                                    <i class="fa-solid fa-file-pdf text-xl"></i>
+                                </div>
+                                <div class="text-xs">
+                                    <span class="font-bold text-brand-navy group-hover:text-brand-teal transition-colors">Click to upload</span> or drag and drop
+                                </div>
+                                <p class="text-[10px] text-slate-400 font-medium">Secure PDF, PNG, or JPEG formats up to 10MB sizes.</p>
+                            </div>
+
+                            <!-- Dynamic Success Feedback State (Hidden initially) -->
+                            <div id="dropzone-success" class="hidden space-y-2 pointer-events-none text-center">
+                                <div class="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-xl flex items-center justify-center mx-auto border border-emerald-200">
+                                    <i class="fa-solid fa-circle-check text-xl"></i>
+                                </div>
+                                <div class="text-xs font-bold text-brand-navy truncate max-w-xs" id="file-name-display">
+                                    Document Loaded Successfully
+                                </div>
+                                <p class="text-[10px] text-emerald-600 font-semibold bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-md inline-block">Ready for ledger minting</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ACTION BUTTONS HOUSING FOOTER -->
+                    <div class="pt-2 flex items-center justify-end gap-3">
+                        <button type="reset" id="reset-btn" class="bg-brand-slate hover:bg-slate-200 border border-slate-200 text-brand-charcoal text-xs font-bold py-2.5 px-4 rounded-xl transition-all">
+                            Clear Inputs
+                        </button>
+                        <button type="submit" class="bg-brand-navy hover:bg-brand-navy/95 text-white text-xs font-bold py-2.5 px-5 rounded-xl flex items-center space-x-2 transition-all shadow-md">
+                            <i class="fa-solid fa-cube text-brand-cyan"></i>
+                            <span>Compile & Register Record</span>
+                        </button>
+                    </div>
+
+                </form>
+            </section>
+        </main>
+
+        <!-- PORTAL BANNER FOOTER -->
+        <footer class="bg-white border-t border-slate-200 py-4 px-8 text-center text-xs text-slate-400 font-medium mt-auto">
+            <p>&copy; 2026 Institutional Verification Management Platform. Secure Administrative Node Access Session.</p>
+        </footer>
+    </div>
+
+    <!-- AOS ANIMATION INITIALIZATION & INTERACTIVE SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="/formHandlers/add-certificate.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            duration: 500,
+            easing: 'ease-out-quad'
+        });
+
+        // ==========================================
+        // DRAG & DROP FILE INTERACTION SCRIPT HANDLER
+        // ==========================================
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('certificateFile');
+        const promptState = document.getElementById('dropzone-prompt');
+        const successState = document.getElementById('dropzone-success');
+        const nameDisplay = document.getElementById('file-name-display');
+        const resetBtn = document.getElementById('reset-btn');
+
+        // Drag events hooks toggling custom visual classes
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropzone.classList.add('drag-over');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('drag-over');
+            }, false);
+        });
+
+        // Track file capture and update visible layout interface elements
+        fileInput.addEventListener('change', (e) => {
+            handleFileSelection(fileInput.files[0]);
+        });
+
+        function handleFileSelection(file) {
+            if (file) {
+                nameDisplay.textContent = file.name;
+                promptState.classList.add('hidden');
+                successState.classList.remove('hidden');
+                dropzone.classList.add('border-emerald-500', 'bg-emerald-50/10');
+            }
+        }
+
+        // Handle clear forms triggers resetting components
+        resetBtn.addEventListener('click', () => {
+            promptState.classList.remove('hidden');
+            successState.classList.add('hidden');
+            dropzone.className = "relative border-2 border-dashed border-slate-200 hover:border-brand-teal bg-brand-slate rounded-2xl p-6 text-center transition-all cursor-pointer group flex flex-col items-center justify-center min-h-[160px]";
+        });
+    </script>
+</body>
+</html>

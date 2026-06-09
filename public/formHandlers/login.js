@@ -49,29 +49,37 @@ document.getElementById('form').addEventListener('submit', (e) => {
   const email = form.email.value.trim();
   const password = form.password.value.trim();
 
-  let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const passRegex = /^.{5,}$/;
+  // Regular Expressions
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Strict Password: Min 6 chars, 1 Uppercase, 1 Lowercase, 1 Number, 1 Special Char
+ let passRegex = /^(?=.*[a-zA-Z0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{4,}$/;
+    
   
   
 
 
   if (!emailRegex.test(email)) {
-      appNotify.error("Enter a valid school email");
-      return;
-  }
+        appNotify.error("Please enter a valid administrative email");
+        return;
+    }
+
+  
+
+    if (!passRegex.test(password)) {
+        appNotify.error("Access Key does not meet security requirements");
+        // We stop here so the user can look at the indicators we built
+        return;
+    }
 
 
 
 
-if (!passRegex.test(password)) {
-  appNotify.error("Password must be at least 5 characters long with no spaces");
-  return;
-}
+
 
   
 
 const formData = {
-  school_email,
+  email,
   password,
 }
   submit_btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span class="ml-2 tracking-widest">Authorizing...</span>';
@@ -84,7 +92,7 @@ const formData = {
   // }, 4000);
 
 
-  fetch("/auth/school-login", {
+  fetch("/auth/admin-login", {
       method: "POST",
       headers:{
                 'Content-Type': 'application/json'
@@ -108,15 +116,15 @@ const formData = {
   
     if (data.error) {
 
-      setTimeout(() => {
-        submit_btn.innerHTML = `<span>Login</span>
-        <i class="fas fa-shield-alt transition-transform ml-2" style="color: var(--app-yellow);"></i>`;
+       setTimeout(() => {
+         submit_btn.innerHTML = `<span>Access Dashboard</span>
+                    <i class="fas fa-arrow-right text-[9px] group-hover:translate-x-1 transition-transform ml-2"></i>`;
       appNotify.error(data.error);
       submit_btn.disable = false
         }, 3000);
-      
 
-       
+
+        
     }
 
 

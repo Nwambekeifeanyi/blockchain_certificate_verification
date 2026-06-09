@@ -2,42 +2,20 @@ import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 
 const adminSchema = mongoose.Schema({
-      first_name:{
+      full_name:{
             type:String,
       },
-      last_name:{
-            type:String,
-      },
+     
     email:{
             type:String,
       },
-    contact:{
-            type:String,
-      },
+   
 
     password:{
             type:String,
       },
 
-    role:{
-            type:String,
-            default: 'admin'
-
-      },
-
-
-      // auto assigned
-
-      active:{
-            type:Boolean,
-            default:true
-
-      },
-      
-      profile:{
-            type:String,
-            default:'profile3.png'
-      },
+   
 
       regDate:{
             type:String,
@@ -46,21 +24,40 @@ const adminSchema = mongoose.Schema({
 })
 
 adminSchema.pre('save', async function (next) {
-      const salt = await bcrypt.genSalt();
-      this.password = await bcrypt.hash(this.password, salt);
-      next();
-    })
-adminSchema.statics.login = async function(email,password){
-      const admin = await Admin.findOne({email})
-
-      if (admin) {
-          const auth = await bcrypt.compare(password, admin.password)  
-          if (auth) {
-            return admin
-          }
-          throw new Error('incorrect password')
+      // ONLY hash the password if it is new or being updated
+      if (!this.isModified('password')) {
+            return next();
       }
-      throw new Error('this username does not exist')
+
+      try {
+            const salt = await bcrypt.genSalt(12);
+            this.password = await bcrypt.hash(this.password, salt);
+            next();
+      } catch (error) {
+            next(error);
+      }
+});
+
+// adminSchema.statics.login = async function(adminSchemaName,password) {
+adminSchema.statics.login = async function (email, password) {
+      const admin = await Admin.findOne({ email })
+      if (admin) {
+            const auth = await bcrypt.compare(password, admin.password);
+
+            console.log(auth);
+            if (auth) {
+                  return admin
+            } else {
+
+                  // 'incorrect password'
+                  throw new Error('Invalid credentials. Please check your email and password.');
+            }
+      } else {
+            throw new Error('Invalid credentials. Please check your email and password.');
+
+      }
 }
-const Admin = mongoose.model('admins',adminSchema)
+
+
+const Admin = mongoose.model('admin', adminSchema)
 export default Admin;

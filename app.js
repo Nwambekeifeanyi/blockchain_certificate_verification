@@ -32,6 +32,13 @@ const __dirname = path.dirname(__filename);
 
 app.use(express.static(path.join(__dirname, '/public')))
 
+
+// / This acts as a catch-all for any undefined routes
+app.use((req, res) => {
+    res.status(404).render('pageViews/404'); // Adjust path if you put it in views/ root
+});
+
+
 app.listen(process.env.APP_PORT, ()=>{
     console.log('Server running at port http://localhost:2900');
 })

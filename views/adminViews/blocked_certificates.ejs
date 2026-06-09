@@ -72,9 +72,9 @@
                     <p class="text-xs text-slate-400 mt-1">Manage, verify, audit, and inspect all cryptographic certificate profiles stored on ledger nodes.</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <a href="/admin/dashboard#issue-section" class="bg-brand-navy hover:bg-brand-navy/95 text-white text-xs font-bold py-2.5 px-4 rounded-xl flex items-center space-x-2 transition-all shadow-sm">
+                    <a href="add-certificate" class="bg-brand-navy hover:bg-brand-navy/95 text-white text-xs font-bold py-2.5 px-4 rounded-xl flex items-center space-x-2 transition-all shadow-sm">
                         <i class="fa-solid fa-plus-circle text-brand-cyan"></i>
-                        <span>Mint New Record</span>
+                        <span>New Record</span>
                     </a>
                 </div>
             </section>
@@ -96,10 +96,7 @@
                         <button id="filter-all" onclick="setRegistryFilter('all')" class="bg-brand-navy text-white text-xs font-bold px-4 py-2 rounded-xl transition-all whitespace-nowrap">
                             All Records (1,482)
                         </button>
-                        <button id="filter-verified" onclick="setRegistryFilter('verified')" class="bg-brand-slate hover:bg-slate-200 text-brand-charcoal text-xs font-bold px-4 py-2 rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5">
-                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
-                            <span>Verified</span>
-                        </button>
+                      
                         <button id="filter-blocked" onclick="setRegistryFilter('blocked')" class="bg-brand-slate hover:bg-slate-200 text-brand-charcoal text-xs font-bold px-4 py-2 rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5">
                             <span class="w-2 h-2 bg-red-500 rounded-full"></span>
                             <span>Blocked Certificates</span>
@@ -119,108 +116,68 @@
                                 <th class="p-4">Academic Degree Domain</th>
                                 <th class="p-4">SHA-256 Ledger Signature Anchor</th>
                                 <th class="p-4">Status Map</th>
-                                <th class="p-4 pr-6 text-center">Action Console</th>
+                                <!-- <th class="p-4 pr-6 text-center">Action Console</th> -->
                             </tr>
                         </thead>
                         <tbody id="registry-table-body" class="text-xs font-medium divide-y divide-slate-100">
                             
-                            <!-- Record Instance Item Row 1 -->
-                            <tr class="table-row-item hover:bg-slate-50/80 transition-colors" data-status="verified">
-                                <td class="p-4 pl-6 font-mono font-bold text-brand-teal row-matric">2021/EG/1045</td>
-                                <td class="p-4 text-brand-navy font-bold row-name">Chinedu Silas Okeke</td>
-                                <td class="p-4 text-slate-600">B.Sc. Computer Science</td>
-                                <td class="p-4 font-mono text-slate-400 max-w-[120px] truncate select-all row-hash">8f43a291e1029c32bca612984efd11029348abedef71203948eacd32109ffb3a</td>
-                                <td class="p-4">
-                                    <span class="inline-flex items-center gap-1 bg-emerald-50 border border-emerald-200 text-emerald-700 px-2.5 py-1 rounded-lg text-[10px] font-bold">
-                                        <i class="fa-solid fa-check-circle text-xs"></i> Verified
-                                    </span>
-                                </td>
-                                <td class="p-4 pr-6 text-center">
-                                    <div class="inline-flex items-center gap-2">
-                                        <a href="/admin/verify?id=2021-EG-1045" class="bg-brand-slate border border-slate-200 hover:border-brand-teal hover:text-brand-teal text-brand-navy p-2 rounded-lg transition-all" title="View Document Canvas">
-                                            <i class="fa-solid fa-file-shield text-sm"></i>
-                                        </a>
-                                        <button class="bg-brand-slate border border-slate-200 hover:border-red-500 hover:text-red-500 text-brand-charcoal p-2 rounded-lg transition-all" title="Revoke Certificate Integrity Token">
-                                            <i class="fa-solid fa-ban text-sm"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <!-- Record Instance Item Row 2 -->
-                            <tr class="table-row-item hover:bg-slate-50/80 transition-colors" data-status="verified">
-                                <td class="p-4 pl-6 font-mono font-bold text-brand-teal row-matric">2022/EE/1182</td>
-                                <td class="p-4 text-brand-navy font-bold row-name">Fatima Aminu Bello</td>
-                                <td class="p-4 text-slate-600">B.Eng. Electrical Engineering</td>
-                                <td class="p-4 font-mono text-slate-400 max-w-[120px] truncate select-all row-hash">3a9921efdcab48e239401203948faeedbca612984efd11029348abedef712011</td>
-                                <td class="p-4">
-                                    <span class="inline-flex items-center gap-1 bg-emerald-50 border border-emerald-200 text-emerald-700 px-2.5 py-1 rounded-lg text-[10px] font-bold">
-                                        <i class="fa-solid fa-check-circle text-xs"></i> Verified
-                                    </span>
-                                </td>
-                                <td class="p-4 pr-6 text-center">
-                                    <div class="inline-flex items-center gap-2">
-                                        <a href="#" class="bg-brand-slate border border-slate-200 hover:border-brand-teal hover:text-brand-teal text-brand-navy p-2 rounded-lg transition-all">
-                                            <i class="fa-solid fa-file-shield text-sm"></i>
-                                        </a>
-                                        <button class="bg-brand-slate border border-slate-200 hover:border-red-500 hover:text-red-500 text-brand-charcoal p-2 rounded-lg transition-all">
-                                            <i class="fa-solid fa-ban text-sm"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <!-- Record Instance Item Row 3 (Blocked) -->
-                            <tr class="table-row-item hover:bg-slate-50/80 transition-colors bg-red-50/30" data-status="blocked">
-                                <td class="p-4 pl-6 font-mono font-bold text-red-500 row-matric">2022/CS/1089</td>
-                                <td class="p-4 text-brand-navy font-bold row-name">Tunde Emmanuel Alao</td>
-                                <td class="p-4 text-slate-600">B.Sc. Computer Science</td>
-                                <td class="p-4 font-mono text-red-400/80 max-w-[120px] truncate select-all row-hash">7f3a9b8c2d4e8a1b9401203948faeedbca612984efd11029348abedef712034</td>
-                                <td class="p-4">
-                                    <span class="inline-flex items-center gap-1 bg-red-50 border border-red-200 text-red-700 px-2.5 py-1 rounded-lg text-[10px] font-bold">
-                                        <i class="fa-solid fa-triangle-exclamation text-xs"></i> Flagged Forgery
-                                    </span>
-                                </td>
-                                <td class="p-4 pr-6 text-center">
-                                    <div class="inline-flex items-center gap-2">
-                                        <button class="bg-red-500 hover:bg-red-600 text-white font-bold px-3 py-1.5 rounded-lg transition-all text-[11px] flex items-center gap-1 shadow-sm">
-                                            <i class="fa-solid fa-gavel"></i>
-                                            <span>Review Match Audit</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <!-- Record Instance Item Row 4 -->
-                            <tr class="table-row-item hover:bg-slate-50/80 transition-colors" data-status="verified">
-                                <td class="p-4 pl-6 font-mono font-bold text-brand-teal row-matric">2022/ME/1401</td>
-                                <td class="p-4 text-brand-navy font-bold row-name">Amara Blessing Nwachukwu</td>
-                                <td class="p-4 text-slate-600">B.Eng. Mechanical Engineering</td>
-                                <td class="p-4 font-mono text-slate-400 max-w-[120px] truncate select-all row-hash">bc51039da82103eef2193012984faeedbca612984efd11029348abedef7120de</td>
-                                <td class="p-4">
-                                    <span class="inline-flex items-center gap-1 bg-emerald-50 border border-emerald-200 text-emerald-700 px-2.5 py-1 rounded-lg text-[10px] font-bold">
-                                        <i class="fa-solid fa-check-circle text-xs"></i> Verified
-                                    </span>
-                                </td>
-                                <td class="p-4 pr-6 text-center">
-                                    <div class="inline-flex items-center gap-2">
-                                        <a href="#" class="bg-brand-slate border border-slate-200 hover:border-brand-teal hover:text-brand-teal text-brand-navy p-2 rounded-lg transition-all">
-                                            <i class="fa-solid fa-file-shield text-sm"></i>
-                                        </a>
-                                        <button class="bg-brand-slate border border-slate-200 hover:border-red-500 hover:text-red-500 text-brand-charcoal p-2 rounded-lg transition-all">
-                                            <i class="fa-solid fa-ban text-sm"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
                             
-                            <!-- State Indicator Row for Empty Queries -->
-                            <tr id="empty-state-row" class="hidden">
-                                <td colspan="6" class="p-8 text-center text-slate-400 font-medium">
-                                    <i class="fa-solid fa-magnifying-glass-blur text-2xl mb-2 block text-slate-300"></i>
-                                    No records match your active criteria parameters.
-                                </td>
-                            </tr>
+
+
+
+                           <% if (context.forgeries && context.forgeries.length > 0) { %>
+    <% context.forgeries.forEach(forgery => { %>
+        
+        <tr class="table-row-item hover:bg-slate-50/80 transition-colors bg-red-50/30" data-status="blocked" id="forgery-<%= forgery._id %>">
+            
+            <td class="p-4 pl-6 font-mono font-bold text-red-500 row-matric">
+                <%= forgery.matricNumber || forgery.matric_number || "NOT_PROVIDED" %>
+            </td>
+            
+            <td class="p-4 text-brand-navy font-bold row-name">
+                <%= forgery.fullName || forgery.full_name %>
+            </td>
+            
+            <td class="p-4 text-slate-600">
+                <%= forgery.department %>
+            </td>
+            
+            <td class="p-4 font-mono text-red-400/80 max-w-[120px] truncate select-all row-hash" title="<%= forgery.fileHash %>">
+                <%= forgery.fileHash %>
+            </td>
+            
+            <td class="p-4">
+                <span class="inline-flex items-center gap-1 bg-red-50 border border-red-200 text-red-700 px-2.5 py-1 rounded-lg text-[10px] font-bold">
+                    <i class="fa-solid fa-triangle-exclamation text-xs"></i> Flagged Forgery
+                </span>
+            </td>
+            
+            <!-- <td class="p-4 pr-6 text-center">
+                <div class="inline-flex items-center gap-2">
+                    
+                    <a href="/<%= forgery.certificate %>" target="_blank" class="bg-brand-slate border border-slate-200 hover:border-red-500 hover:text-red-500 text-brand-navy p-2 rounded-lg transition-all" title="View Forged Document Asset">
+                        <i class="fa-solid fa-file-invoice text-sm"></i>
+                    </a>
+
+                    <button onclick="reviewAudit('<%= forgery._id %>')" class="bg-red-500 hover:bg-red-600 text-white font-bold px-3 py-1.5 rounded-lg transition-all text-[11px] flex items-center gap-1 shadow-sm" title="Review Match Audit">
+                        <i class="fa-solid fa-gavel"></i>
+                        <span>Review Match Audit</span>
+                    </button>
+                    
+                </div>
+            </td> -->
+        </tr>
+
+    <% }) %>
+<% } else { %>
+    <tr>
+        <td colspan="6" class="p-8 text-center text-sm font-medium text-slate-400">
+            <i class="fa-solid fa-shield-halved text-lg mr-2 text-emerald-500"></i> No fraudulent incidents or forgery entries flagged in this ledger workspace context.
+        </td>
+    </tr>
+<% } %>
+                           
+                           
                         </tbody>
                     </table>
                 </div>

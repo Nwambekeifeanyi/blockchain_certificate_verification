@@ -70,29 +70,40 @@
                 <!-- Card Count 1 -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
                     <div class="space-y-1">
-                        <p class="text-xs font-bold tracking-wider text-slate-400 uppercase">Total Logged Certificates</p>
-                        <h3 class="text-3xl font-black text-brand-navy">1,482</h3>
-                    </div>
+    <p class="text-xs font-bold tracking-wider text-slate-400 uppercase">Total Logged Certificates</p>
+    <h3 class="text-3xl font-black text-brand-navy">
+        <%= (context && context.certificates) ? String(context.certificates.length).padStart(3, '0') : "000" %>
+    </h3>
+</div>
                     <div class="w-12 h-12 bg-brand-navy/5 text-brand-teal rounded-xl flex items-center justify-center text-xl shadow-inner">
                         <i class="fa-solid fa-graduation-cap"></i>
                     </div>
                 </div>
                 <!-- Card Count 2 -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-                    <div class="space-y-1">
-                        <p class="text-xs font-bold tracking-wider text-slate-400 uppercase">Cryptographic Hashes Cached</p>
-                        <h3 class="text-3xl font-black text-brand-navy">1,482</h3>
-                    </div>
+                  <div class="space-y-1">
+    <p class="text-xs font-bold tracking-wider text-slate-400 uppercase">Cryptographic Hashes Cached</p>
+    <h3 class="text-3xl font-black text-brand-navy">
+        <% 
+            let certCount = (context && context.certificates) ? context.certificates.length : 0;
+            let forgeCount = (context && context.forgeries) ? context.forgeries.length : 0;
+            let totalHashes = certCount + forgeCount;
+        %>
+        <%= totalHashes > 0 ? String(totalHashes).padStart(3, '0') : "000" %>
+    </h3>
+</div>
                     <div class="w-12 h-12 bg-brand-navy/5 text-brand-teal rounded-xl flex items-center justify-center text-xl shadow-inner">
                         <i class="fa-solid fa-fingerprint"></i>
                     </div>
                 </div>
                 <!-- Card Count 3 -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between sm:col-span-2 lg:col-span-1">
-                    <div class="space-y-1">
-                        <p class="text-xs font-bold tracking-wider text-slate-400 uppercase">Altered File Forgery Blocks</p>
-                        <h3 class="text-3xl font-black text-red-500">24</h3>
-                    </div>
+                   <div class="space-y-1">
+    <p class="text-xs font-bold tracking-wider text-slate-400 uppercase">Altered File Forgery Blocks</p>
+    <h3 class="text-3xl font-black text-red-500">
+        <%= (context && context.forgeries) ? String(context.forgeries.length).padStart(3, '0') : "000" %>
+    </h3>
+</div>
                     <div class="w-12 h-12 bg-red-50 text-red-500 rounded-xl flex items-center justify-center text-xl shadow-inner">
                         <i class="fa-solid fa-triangle-exclamation"></i>
                     </div>
@@ -114,25 +125,25 @@
                     </div>
 
                     <!-- Issuing Action Form Interface -->
-                    <form action="/api/admin/issue" method="POST" enctype="multipart/form-data" class="space-y-4" onsubmit="event.preventDefault(); alert('Backend Processing Alert: Express engine processes this multipart upload payload.');">
+                    <form enctype="multipart/form-data" class="space-y-4" onsubmit="event.preventDefault(); alert('Backend Processing Alert: Express engine processes this multipart upload payload.');">
                         <div class="space-y-1">
                             <label class="text-[11px] font-bold text-slate-700 uppercase tracking-wide">Student Graduate Name</label>
-                            <input type="text" required placeholder="E.g., Chinedu Silas Okeke" class="w-full px-3.5 py-2.5 rounded-xl bg-brand-slate border border-slate-200 text-sm font-medium text-brand-navy focus:outline-none focus:bg-white focus:border-brand-teal transition-all">
+                            <input type="text" placeholder="E.g., Chinedu Silas Okeke" class="w-full px-3.5 py-2.5 rounded-xl bg-brand-slate border border-slate-200 text-sm font-medium text-brand-navy focus:outline-none focus:bg-white focus:border-brand-teal transition-all">
                         </div>
                         <div class="space-y-1">
                             <label class="text-[11px] font-bold text-slate-700 uppercase tracking-wide">Unique Matric Number Identifier</label>
-                            <input type="text" required placeholder="E.g., 2021/EG/1045" class="w-full px-3.5 py-2.5 rounded-xl bg-brand-slate border border-slate-200 text-sm font-mono font-bold text-brand-navy focus:outline-none focus:bg-white focus:border-brand-teal transition-all">
+                            <input type="text" placeholder="E.g., 2021/EG/1045" class="w-full px-3.5 py-2.5 rounded-xl bg-brand-slate border border-slate-200 text-sm font-mono font-bold text-brand-navy focus:outline-none focus:bg-white focus:border-brand-teal transition-all">
                         </div>
                         <div class="space-y-1">
                             <label class="text-[11px] font-bold text-slate-700 uppercase tracking-wide">Academic Department / Course</label>
-                            <input type="text" required placeholder="E.g., B.Sc. Computer Science" class="w-full px-3.5 py-2.5 rounded-xl bg-brand-slate border border-slate-200 text-sm font-medium text-brand-navy focus:outline-none focus:bg-white focus:border-brand-teal transition-all">
+                            <input type="text" placeholder="E.g., B.Sc. Computer Science" class="w-full px-3.5 py-2.5 rounded-xl bg-brand-slate border border-slate-200 text-sm font-medium text-brand-navy focus:outline-none focus:bg-white focus:border-brand-teal transition-all">
                         </div>
                         
                         <!-- File Upload Engine Buffer Box -->
                         <div class="space-y-1">
                             <label class="text-[11px] font-bold text-slate-700 uppercase tracking-wide">Original Certificate Document File Asset</label>
                             <div class="border-2 border-dashed border-slate-200 hover:border-brand-teal rounded-xl p-4 bg-brand-slate/50 text-center cursor-pointer transition-colors relative group">
-                                <input type="file" required name="certificateFile" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                                <input type="file" name="certificateFile" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
                                 <i class="fa-solid fa-cloud-arrow-up text-2xl text-slate-400 group-hover:text-brand-teal mb-1 transition-colors"></i>
                                 <p class="text-xs font-semibold text-slate-600">Drag & drop or browse document data files</p>
                                 <p class="text-[10px] text-slate-400 mt-0.5 font-mono">PDF, PNG or JPG binaries only (Max 5MB)</p>
@@ -140,7 +151,7 @@
                         </div>
 
                         <!-- Submission Trigger Executer button -->
-                        <button type="submit" class="w-full bg-brand-navy hover:bg-brand-navy/95 text-white font-bold py-3 px-5 rounded-xl shadow-md transform hover:-translate-y-0.5 active:scale-95 transition-all flex items-center justify-center space-x-2 text-sm pt-2.5">
+                        <button type="reset" class="w-full bg-brand-navy hover:bg-brand-navy/95 text-white font-bold py-3 px-5 rounded-xl shadow-md transform hover:-translate-y-0.5 active:scale-95 transition-all flex items-center justify-center space-x-2 text-sm pt-2.5">
                             <i class="fa-solid fa-qrcode text-brand-cyan text-xs"></i>
                             <span>Register & Store Hash Signature</span>
                         </button>
@@ -175,23 +186,31 @@
                                 </thead>
                                 <tbody class="text-xs font-medium divide-y divide-slate-100">
                                     <!-- Row item 1 -->
-                                    <tr class="hover:bg-slate-50/80 transition-colors">
-                                        <td class="p-3 font-mono font-bold text-brand-teal">2022/CS/1042</td>
-                                        <td class="p-3 text-brand-navy">Chinedu Silas Okeke</td>
-                                        <td class="p-3 font-mono text-slate-400 max-w-[150px] truncate">8f43a291e1029c32bca612984efd11029348abedef71203948eacd32109ffb3a</td>
-                                    </tr>
-                                    <!-- Row item 2 -->
-                                    <tr class="hover:bg-slate-50/80 transition-colors">
-                                        <td class="p-3 font-mono font-bold text-brand-teal">2022/EE/1182</td>
-                                        <td class="p-3 text-brand-navy">Fatima Aminu Bello</td>
-                                        <td class="p-3 font-mono text-slate-400 max-w-[150px] truncate">3a9921efdcab48e239401203948faeedbca612984efd11029348abedef712011</td>
-                                    </tr>
-                                    <!-- Row item 3 -->
-                                    <tr class="hover:bg-slate-50/80 transition-colors">
-                                        <td class="p-3 font-mono font-bold text-brand-teal">2022/CS/1089</td>
-                                        <td class="p-3 text-brand-navy">Tunde Emmanuel Alao</td>
-                                        <td class="p-3 font-mono text-slate-400 max-w-[150px] truncate">7f3a9b8c2d4e8a1b9401203948faeedbca612984efd11029348abedef712034</td>
-                                    </tr>
+                                    <% if (context && context.certificates && context.certificates.length > 0) { %>
+    <% context.certificates.forEach((cert) => { %>
+        <tr class="hover:bg-slate-50/80 transition-colors border-b border-slate-100">
+            <td class="p-3 font-mono font-bold text-brand-teal text-xs">
+                <%= cert.matric_number || cert._id %>
+            </td>
+            
+            <td class="p-3 text-brand-navy text-xs font-semibold">
+                <%= cert.full_name || cert.student_name %>
+            </td>
+            
+            <td class="p-3 font-mono text-slate-400 text-xs max-w-[150px] truncate" title="<%= cert.hash || cert.certificate_hash %>">
+                <%= (cert.fileHash || cert.fileHash) ? (cert.fileHash || cert.fileHash).substring(0, 16) + '...' : 'No Hash Mapped' %>
+            </td>
+        </tr>
+    <% }) %>
+<% } else { %>
+    <tr>
+        <td colspan="3" class="p-8 text-center text-xs font-medium text-slate-400 italic">
+            <i class="fa-solid fa-folder-open block text-xl mb-2 text-slate-300"></i>
+            No verified administrative credentials committed to this node segment.
+        </td>
+    </tr>
+<% } %>
+                                   
                                 </tbody>
                             </table>
                         </div>

@@ -4,12 +4,12 @@ const checkAdmin = (req, res, next) => {
   const token = req.cookies.jwt;
 
   if (!token) {
-    return res.redirect("/admin/login");
+    return res.redirect("/login");
   }
 
   jwt.verify(token, process.env.TOKEN_SECRET, (error, decodedToken) => {
     if (error) {
-      return res.redirect("/admin/login");
+      return res.redirect("/login");
     }
     req.admin = decodedToken.id;
     console.log(`${req.headers.host}${req.originalUrl}`);

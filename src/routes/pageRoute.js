@@ -1,11 +1,14 @@
 import { Router } from "express";
 import pageCont from "../controllers/pageCont.js";
-import { checkUserLogout } from "../middlewares/authMiddleware.js";
+import { checkAdminLogout, checkUserLogout } from "../middlewares/authMiddleware.js";
+import upload from "../helpers/img_processor.js";
 
 const router = Router();
 
-router.get("/", checkUserLogout, pageCont.getHome);
-router.get("/login", checkUserLogout, pageCont.getLogin);
-router.get("/register", checkUserLogout, pageCont.getRegister);
+router.get("/", pageCont.getHome);
+router.get("/login", checkAdminLogout, pageCont.getLogin);
+router.get("/register", checkAdminLogout, pageCont.getRegister);
+router.get("/verify", pageCont.getVerify);
+router.post("/verify", upload, pageCont.postVerifyCertificate);
 
 export default router;

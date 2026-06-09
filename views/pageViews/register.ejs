@@ -43,6 +43,21 @@
 </head>
 <body class="bg-brand-navy text-brand-charcoal font-sans antialiased flex flex-col min-h-screen selection:bg-brand-cyan selection:text-brand-navy">
 
+     <div id="formToast" class="fixed top-10 left-1/2 -translate-x-1/2 z-[10000] transform -translate-y-20 opacity-0 transition-all duration-500 pointer-events-none">
+        <div class="bg-white border-l-4 border-red-500 shadow-2xl rounded-xl p-4 flex items-center space-x-4 min-w-[320px]">
+            <div id="toastIconBg" class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0">
+                <i id="toastIcon" class="fas fa-exclamation-triangle text-white"></i>
+            </div>
+            <div class="flex-1">
+                <p id="toastTitle" class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-0.5">System Alert</p>
+                <p id="toastMessage" class="text-sm font-bold text-slate-800">Invalid Input Detected</p>
+            </div>
+            <button onclick="appNotify.hide()" class="text-slate-300 hover:text-slate-600 transition">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
     <!-- HEADER NAVIGATION BAR -->
     <header class="w-full bg-brand-navy/80 backdrop-blur-md border-b border-brand-cyan/10 px-6 py-4 md:px-12">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
@@ -84,7 +99,7 @@
         </div>
 
         <!-- Registration Action Form Block -->
-        <form action="/api/admin/register" method="POST" class="space-y-6" onsubmit="return validateRegistration(event)">
+        <form id="form" class="space-y-6">
             
             <!-- System Feedback Notification Field (Hidden by default) -->
             <div id="form-feedback" class="hidden p-4 rounded-xl text-xs font-semibold flex items-center space-x-2"></div>
@@ -95,7 +110,7 @@
                     <span>Staff Full Name</span>
                     <i class="fa-solid fa-address-card text-slate-400"></i>
                 </label>
-                <input type="text" id="reg-name" required placeholder="Dr. Chioma Nwachukwu" 
+                <input type="text" id="reg-name" name="full_name" placeholder="Dr. Chioma Nwachukwu" 
                     class="w-full px-4 py-3.5 rounded-xl bg-brand-slate border border-slate-200 text-sm font-medium text-brand-navy placeholder-slate-400 focus:outline-none focus:bg-white input-glow transition-all">
             </div>
 
@@ -105,7 +120,7 @@
                     <span>Official University Email</span>
                     <i class="fa-solid fa-envelope text-slate-400"></i>
                 </label>
-                <input type="email" id="reg-email" required placeholder="c.nwachukwu@university.edu.ng" 
+                <input type="email" id="reg-email" name="email" placeholder="c.nwachukwu@university.edu.ng" 
                     class="w-full px-4 py-3.5 rounded-xl bg-brand-slate border border-slate-200 text-sm font-medium text-brand-navy placeholder-slate-400 focus:outline-none focus:bg-white input-glow transition-all">
             </div>
 
@@ -115,12 +130,12 @@
                     <span>System Password</span>
                     <i class="fa-solid fa-lock text-slate-400"></i>
                 </label>
-                <input type="password" id="reg-password" required placeholder="••••••••••••" 
+                <input type="password" id="reg-password" name="password" placeholder="••••••••••••" 
                     class="w-full px-4 py-3.5 rounded-xl bg-brand-slate border border-slate-200 text-sm font-medium text-brand-navy placeholder-slate-400 focus:outline-none focus:bg-white input-glow transition-all">
             </div>
 
             <!-- Form Action Execution Submit Button -->
-            <button type="submit" class="w-full bg-brand-navy hover:bg-brand-navy/95 text-white font-bold py-4 px-6 rounded-xl shadow-lg shadow-brand-navy/10 transform hover:-translate-y-0.5 active:scale-95 transition-all flex items-center justify-center space-x-2 text-sm pt-2">
+            <button type="submit" id="submit_btn" class="w-full bg-brand-navy hover:bg-brand-navy/95 text-white font-bold py-4 px-6 rounded-xl shadow-lg shadow-brand-navy/10 transform hover:-translate-y-0.5 active:scale-95 transition-all flex items-center justify-center space-x-2 text-sm pt-2">
                 <i class="fa-solid fa-user-shield text-xs text-brand-cyan"></i>
                 <span>Initialize Admin Registration</span>
             </button>
@@ -141,6 +156,7 @@
   
     <!-- AOS ANIMATION INITIALIZATION & INTERCEPT DEMO SCRIPT -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="/formHandlers/register.js"></script>
     <script>
         AOS.init({
             once: true,
@@ -148,34 +164,8 @@
             easing: 'ease-out-quad'
         });
 
-        // Basic Client-Side Validation Controller Handler Loop
-        function validateRegistration(e) {
-            e.preventDefault();
-            const feedbackBlock = document.getElementById('form-feedback');
-            const pass = document.getElementById('reg-password').value;
-            const confirmPass = document.getElementById('reg-confirm').value;
+        
 
-            // Password matching guard clause
-            if (pass !== confirmPass) {
-                feedbackBlock.classList.remove('hidden', 'bg-brand-cyan/10', 'text-brand-navy');
-                feedbackBlock.classList.add('bg-red-500/10', 'text-red-500', 'block');
-                feedbackBlock.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1.5"></i> Operational Misalignment: Input passwords do not match. Check credentials again.`;
-                return false;
-            }
-
-            // Processing UI simulation block
-            feedbackBlock.classList.remove('hidden', 'bg-red-500/10', 'text-red-500');
-            feedbackBlock.classList.add('bg-brand-cyan/10', 'text-brand-navy', 'block');
-            feedbackBlock.innerHTML = `<i class="fa-solid fa-spinner animate-spin mr-1.5"></i> Contacting institutional validation server nodes...`;
-
-            setTimeout(() => {
-                feedbackBlock.classList.remove('bg-brand-cyan/10', 'text-brand-navy');
-                feedbackBlock.classList.add('bg-red-500/10', 'text-red-500');
-                feedbackBlock.innerHTML = `<i class="fa-solid fa-circle-nodes mr-1.5"></i> Registration Blocked: Interface requires active backend pipeline communication to digest cryptographic structures.`;
-            }, 1200);
-
-            return false;
-        }
     </script>
 </body>
 </html>
